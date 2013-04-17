@@ -1,0 +1,65 @@
+﻿<Intersoft:UXPage 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:Intersoft="http://intersoft.clientui.com/schemas"
+	mc:Ignorable="d"
+	x:Class="ClientUIDataApp5.MainPage" 
+	Title="Main Application Page"
+	d:DesignWidth="1024" d:DesignHeight="768">
+    <Intersoft:UXPage.Resources>
+        <DataTemplate x:Key="AdditionalCommandTemplate">
+            <Intersoft:UXToolGroup>
+                <Intersoft:UXTextBox Command="Intersoft:NavigationCommands.Navigate" Style="{StaticResource AddressBarStyle}" MinWidth="150" Text="Address Bar" ToolTipService.ToolTip="Current Page" Margin="4,0,0,0"/>
+                <Intersoft:UXSeparator Orientation="Vertical" Margin="2,5,2,3" Background="#FF383838" d:LayoutOverrides="Width" BorderBrush="#58FFFFFF"/>
+                <Intersoft:UXToolBarButton Content="Email" DisplayMode="Image" VerticalAlignment="Center" HorizontalAlignment="Left" Icon="Assets/Images/Email.png" ToolTipService.ToolTip="Custom Command 1"/>
+                <Intersoft:UXToolBarButton Content="Print" DisplayMode="Image" VerticalAlignment="Center" HorizontalAlignment="Left" Icon="Assets/Images/Print.png" ToolTipService.ToolTip="Custom Command 2"/>
+            </Intersoft:UXToolGroup>
+        </DataTemplate>
+    </Intersoft:UXPage.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource MainPageBackground}">
+        <Intersoft:DockPanel FillChildMode="Custom">
+            <StackPanel x:Name="HeaderContainer" Intersoft:DockPanel.Dock="Top">
+                <Intersoft:GlassLabel x:Name="GlassPanel" Style="{StaticResource GlassBarStyle}">
+                    <Grid Height="34">
+                        <Intersoft:UXNavigationBar x:Name="NavigationBar" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left" AdditionalToolGroup="{StaticResource AdditionalCommandTemplate}" HomeUri="/Home"/>
+                        <StackPanel Margin="3,0,0,0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <TextBlock Text="My" FontSize="18.667" Foreground="{StaticResource BrandingColor1}"/>
+                            <TextBlock Text="Application" Margin="2,0,0,0" FontSize="18.667" Foreground="{StaticResource BrandingColor2}"/>
+                        </StackPanel>
+                    </Grid>
+                </Intersoft:GlassLabel>
+            </StackPanel>
+            <Intersoft:UXFrame x:Name="ContentFrame" Intersoft:DockPanel.Dock="Top" Intersoft:DockPanel.IsFillElement="True" Margin="0,10,0,0" 
+                               EnablePageTransition="True" DefaultTransitionEffect="FlipLeft" AutoDetectNavigationDirection="True" 
+                               NewTransitionEffect="FlipLeft" AllowNestedFrameNavigation="True"
+                               TransitionStrategy="WaitContentReady" TransitionLatency="0.2">
+                <Intersoft:UXFrame.UriMapper>
+                    <Intersoft:UriMapper>
+                        <Intersoft:UriMapping Uri="" MappedUri="/Views/Home.xaml"/>
+                        <Intersoft:UriMapping Uri="/Error" MappedUri="/ErrorPage.xaml"/>
+                        <Intersoft:UriMapping Uri="/{page}" MappedUri="/Views/{page}.xaml"/>
+                    </Intersoft:UriMapper>
+                </Intersoft:UXFrame.UriMapper>
+            </Intersoft:UXFrame>
+            <Intersoft:UXResizablePane Intersoft:DockPanel.Dock="Left" Header="Navigation" EnableFadingAnimation="False"
+                                       Background="{StaticResource NavigationContainerBackground}" Width="140" MaxWidth="200">
+                <Grid>
+                    <Intersoft:UXItemsControl x:Name="NavigationItemsContainer" ItemContainerStyle="{StaticResource NavigationButtonStyle}">
+                        <Intersoft:UXNavigationButton x:Name="btnHome" Content="Home" NavigateUri="/Home" Icon="Assets/Images/Home.png" IsDefaultNavigationSource="True"/>
+                        <Intersoft:UXNavigationButton Content="Customers" NavigateUri="/Customers" Icon="Assets/Images/CustomersFolder.png"/>
+                        <Intersoft:UXNavigationButton Content="Products" NavigateUri="/Products" Icon="Assets/Images/Products.png"/>
+                        <Intersoft:UXNavigationButton Content="Reports" NavigateUri="/Reports" Icon="Assets/Images/Reports.png"/>
+                        <Intersoft:UXNavigationButton Content="Settings" NavigateUri="/Settings" Icon="Assets/Images/Settings.png"/>
+                        <Intersoft:UXNavigationButton Content="About" NavigateUri="/About" Icon="Assets/Images/ClientUI_Silverlight.png"/>
+                    </Intersoft:UXItemsControl>
+                    <Intersoft:UXHyperlinkButton HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" TargetName="_blank" NavigateUri="http://www.clientui.com" Style="{StaticResource ClientUILinkStyle}">
+                        <Image Source="Assets/Images/Powered_ClientUI.png"/>
+                    </Intersoft:UXHyperlinkButton>
+                </Grid>
+            </Intersoft:UXResizablePane>
+        </Intersoft:DockPanel>
+    </Grid>
+</Intersoft:UXPage>

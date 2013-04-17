@@ -1,0 +1,167 @@
+﻿<Intersoft:UXPage 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	xmlns:Intersoft="http://intersoft.clientui.com/schemas"
+    xmlns:ViewModels="clr-namespace:ClientUIDataApp5.ViewModels"
+    xmlns:Converters="clr-namespace:ClientUIDataApp5.Converters"
+	x:Class="ClientUIDataApp5.Products" 
+	Title="Products Page"
+	d:DesignWidth="800" d:DesignHeight="600"
+    Style="{StaticResource CommonPageStyle}" FontSize="12">
+
+    <Intersoft:UXPage.Resources>
+        <Converters:CategoryConverter x:Key="CategoryConverter"/>
+        <ViewModels:ProductsViewModel x:Key="ProductsViewModel"/>
+
+        <Style x:Key="FieldLabelStyle" TargetType="Intersoft:FieldLabel">
+            <Setter Property="HeaderWidth" Value="120"/>
+            <Setter Property="HorizontalHeaderAlignment" Value="Right"/>
+            <Setter Property="HeaderForeground" Value="#FF434343"/>
+        </Style>
+    </Intersoft:UXPage.Resources>
+
+    <Grid x:Name="LayoutRoot" DataContext="{StaticResource ProductsViewModel}">
+        <Grid.Background>
+            <ImageBrush AlignmentY="Bottom" AlignmentX="Right" Stretch="None" Opacity="0.5" ImageSource="../Assets/Images/ProductsLarge.png">
+                <ImageBrush.Transform>
+                    <TranslateTransform X="40" Y="40"/>
+                </ImageBrush.Transform>
+            </ImageBrush>
+        </Grid.Background>
+        <Intersoft:DockPanel FillChildMode="Custom" Margin="4,4,8,8">
+            <Intersoft:StylishLabel Content="Products Page" Intersoft:DockPanel.Dock="Top" Style="{StaticResource PageHeaderStyle}"/>
+            <Grid Intersoft:DockPanel.IsFillElement="True">
+                <Intersoft:DockPanel FillChildMode="Custom">
+                    <Intersoft:UXGridView Intersoft:DockPanel.IsFillElement="True" AutoGenerateColumns="False" QueryOperation="Server"
+                                          GroupFootersVisibility="Visible" GroupByBoxVisibility="Visible" RowHeaderVisibility="Visible"
+                                          CanUserAddRows="True" CanUserDeleteRows="True" CanUserEditRows="True" CanUserPage="True" PageSize="20" 
+                                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding Path=Items}"
+                                          IsBusy="{Binding IsBusy, Mode=TwoWay}" IsRefreshed="{Binding IsRefreshed, Mode=TwoWay}"
+                                          SortDescriptors="{Binding QueryDescriptor.SortDescriptors, Mode=TwoWay}"
+                                          PageDescriptor="{Binding QueryDescriptor.PageDescriptor}"
+                                          FilterDescriptors="{Binding QueryDescriptor.FilterDescriptors, Mode=TwoWay}"
+                                          NewItem="{Binding NewItem, Mode=TwoWay}"
+                                          ValidateRowCommand="{Binding ValidateRowCommand}" InsertRowCommand="{Binding InsertRowCommand}"
+                                          DeleteRowCommand="{Binding DeleteRowCommand}" PrepareNewRowCommand="{Binding PrepareNewRowCommand}"
+                                          UpdateCellCommand="{Binding UpdateCellCommand}" UpdateRowCommand="{Binding UpdateRowCommand}"
+                                          SaveChangesCommand="{Binding SaveChangesCommand}" RejectRowCommand="{Binding RejectRowCommand}"
+                                          RejectChangesCommand="{Binding RejectChangesCommand}" HasChanges="{Binding HasChanges}"
+                                          AutoEditOperation="{Binding AutoEditOperation}">
+                        <Intersoft:UXGridView.GroupDescriptors>
+                            <Intersoft:UXGridViewGroupDescriptor PropertyName="CategoryID"/>
+                        </Intersoft:UXGridView.GroupDescriptors>
+                        <Intersoft:UXGridView.Columns>
+                            <Intersoft:UXGridViewTextColumn Header="Product ID" Binding="{Binding ProductID}" Visibility="Collapsed"/>
+                            <Intersoft:UXGridViewTextColumn Header="Product Name" Binding="{Binding ProductName}"/>
+                            <Intersoft:UXGridViewTextColumn Header="Category" Width="120" Binding="{Binding CategoryID, Converter={StaticResource CategoryConverter}}"
+                                                            GroupConverter="{StaticResource CategoryConverter}"
+                                                            ValueListSource="{Binding Categories, Source={StaticResource ProductsViewModel}}"
+                                                            FilterItemsBinding="{Binding Categories, Source={StaticResource ProductsViewModel}}"
+                                                            FilterMemberPath="CategoryName" FilterValuePath="CategoryID">
+                                <Intersoft:UXGridViewTextColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Intersoft:UXComboBox CornerRadius="0" SelectedValuePath="CategoryID" DisplayMemberPath="CategoryName" SelectedValue="{Binding CategoryID, Mode=TwoWay}" HorizontalAlignment="Stretch" />
+                                    </DataTemplate>
+                                </Intersoft:UXGridViewTextColumn.CellEditingTemplate>
+                            </Intersoft:UXGridViewTextColumn>
+                            <Intersoft:UXGridViewTextColumn Header="Unit Price" Binding="{Binding UnitPrice, StringFormat=c}" Aggregate="Avg" FooterFormatString="Avg = {0:c}" CellHorizontalAlignment="Right">
+                                <Intersoft:UXGridViewTextColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Intersoft:UXCurrencyEditor CornerRadius="0" EditMask="c2" UseEditMaskAsDisplayMask="True" Value="{Binding UnitPrice, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </Intersoft:UXGridViewTextColumn.CellEditingTemplate>
+                            </Intersoft:UXGridViewTextColumn>
+                            <Intersoft:UXGridViewTextColumn Header="Units In Stock" Binding="{Binding UnitsInStock}" Aggregate="Max" FooterFormatString="Max = {0}" CellHorizontalAlignment="Right">
+                                <Intersoft:UXGridViewTextColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Intersoft:UXNumericUpDown CornerRadius="0" Maximum="9999" Value="{Binding UnitsInStock, Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EditMask="f0" UseEditMaskAsDisplayMask="True" />
+                                    </DataTemplate>
+                                </Intersoft:UXGridViewTextColumn.CellEditingTemplate>
+                            </Intersoft:UXGridViewTextColumn>
+                            <Intersoft:UXGridViewTextColumn Header="Units On Order" Binding="{Binding UnitsOnOrder}" Aggregate="Min" FooterFormatString="Min = {0}" CellHorizontalAlignment="Right">
+                                <Intersoft:UXGridViewTextColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Intersoft:UXSliderBar Value="{Binding UnitsOnOrder, Mode=TwoWay}" SmallChange="10" LargeChange="20" Maximum="100"/>
+                                    </DataTemplate>
+                                </Intersoft:UXGridViewTextColumn.CellEditingTemplate>
+                            </Intersoft:UXGridViewTextColumn>
+                            <Intersoft:UXGridViewTextColumn Header="Quantity Per Unit" Binding="{Binding QuantityPerUnit}"/>
+                            <Intersoft:UXGridViewCheckBoxColumn Header="Discontinued" Binding="{Binding Discontinued}"/>
+                        </Intersoft:UXGridView.Columns>
+                    </Intersoft:UXGridView>
+
+                    <Intersoft:UXResizablePane Intersoft:DockPanel.Dock="Bottom" Background="#91FFFFFF"
+                                               ResizeDock="Top" Height="200" MaxHeight="250"
+                                               Header="{Binding SupplierTitle}">
+                        <Intersoft:DockPanel DataContext="{Binding SelectedItem}" FillChildMode="Custom" Margin="8">
+                            <Border BorderBrush="#FF828282" BorderThickness="1" HorizontalAlignment="Left" Background="#19000000" Margin="10,0" Height="120">
+                                <Image Source="/ClientUIDataApp5;component/Assets/Images/SupplierLarge.png" Margin="5" Opacity="0.7"/>
+                            </Border>
+                            <Intersoft:UXTabControl Intersoft:DockPanel.IsFillElement="True" Margin="8,0,0,0" TabStripPlacement="Left" Padding="0">
+                                <Intersoft:UXTabItem ToolTipService.ToolTip="Show supplier overview" HeaderDisplayMode="Image" HeaderImage="/ClientUIDataApp5;component/Assets/Images/Overview.png">
+                                    <Intersoft:UXScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Intersoft:UXItemsControl VerticalAlignment="Center" ItemContainerStyle="{StaticResource FieldLabelStyle}">
+                                                <Intersoft:FieldLabel Header="ID:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.SupplierID}" Width="80" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                                <Intersoft:FieldLabel Header="Company Name:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.CompanyName}" Width="200" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                                <Intersoft:FieldLabel Header="Contact Name:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.ContactName}" Width="200" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                            </Intersoft:UXItemsControl>
+                                            <Intersoft:UXItemsControl VerticalAlignment="Center" ItemContainerStyle="{StaticResource FieldLabelStyle}">
+                                                <Intersoft:FieldLabel Header="Contact Title:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.ContactTitle}" Width="160" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                                <Intersoft:FieldLabel Header="Website:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.HomePage}" Width="160" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                            </Intersoft:UXItemsControl>
+                                        </StackPanel>
+                                    </Intersoft:UXScrollViewer>
+                                </Intersoft:UXTabItem>
+                                <Intersoft:UXTabItem ToolTipService.ToolTip="Show address and contact details" HeaderDisplayMode="Image" HeaderImage="/ClientUIDataApp5;component/Assets/Images/Address.png">
+                                    <Intersoft:UXScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Intersoft:UXItemsControl VerticalAlignment="Center" ItemContainerStyle="{StaticResource FieldLabelStyle}">
+                                                <Intersoft:FieldLabel Header="Address:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.Address}" Width="200" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                                <Intersoft:FieldLabel Header="City:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.City}" Width="100" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                                <Intersoft:FieldLabel Header="Region:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.Region}" Width="60" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                            </Intersoft:UXItemsControl>
+                                            <Intersoft:UXItemsControl VerticalAlignment="Center" ItemContainerStyle="{StaticResource FieldLabelStyle}">
+                                                <Intersoft:FieldLabel Header="Postal Code:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.PostalCode}" Width="60" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                                <Intersoft:FieldLabel Header="Phone:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.Phone}" Width="120" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                                <Intersoft:FieldLabel Header="Fax:">
+                                                    <Intersoft:UXTextBox Text="{Binding Supplier.Fax}" Width="120" IsReadOnly="True"/>
+                                                </Intersoft:FieldLabel>
+                                            </Intersoft:UXItemsControl>
+                                        </StackPanel>
+                                    </Intersoft:UXScrollViewer>
+                                </Intersoft:UXTabItem>
+
+                            </Intersoft:UXTabControl>
+                        </Intersoft:DockPanel>
+                    </Intersoft:UXResizablePane>
+
+                </Intersoft:DockPanel>
+
+            </Grid>
+        </Intersoft:DockPanel>
+    </Grid>
+</Intersoft:UXPage>

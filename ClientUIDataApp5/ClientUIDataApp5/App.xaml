@@ -1,0 +1,17 @@
+﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             x:Class="ClientUIDataApp5.App"
+             >
+    <Application.Resources>
+        
+    	<ResourceDictionary>
+    		<ResourceDictionary.MergedDictionaries>
+    			<ResourceDictionary Source="Assets/Styles/PageStyles.xaml"/>
+    			<ResourceDictionary Source="Assets/Styles/AddressBarStyles.xaml"/>
+				<ResourceDictionary Source="Assets/Styles/NavigationButtonStyles.xaml"/>
+				<ResourceDictionary Source="Assets/Styles/BrandingStyles.xaml"/>
+    		</ResourceDictionary.MergedDictionaries>
+    	</ResourceDictionary>
+        
+    </Application.Resources>
+</Application>

@@ -1,0 +1,28 @@
+﻿<Intersoft:UXPage 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	xmlns:Intersoft="http://intersoft.clientui.com/schemas"
+	x:Class="ClientUIDataApp5.Customers" 
+	Title="Customers Page"
+	d:DesignWidth="800" d:DesignHeight="600"
+    Style="{StaticResource CommonPageStyle}">
+    
+    <Grid x:Name="LayoutRoot">
+		<Grid.Background>
+			<ImageBrush AlignmentY="Bottom" AlignmentX="Right" Stretch="None" Opacity="0.5" ImageSource="../Assets/Images/CustomersFolderLarge.png">
+				<ImageBrush.Transform>
+					<TranslateTransform X="40" Y="40"/>
+				</ImageBrush.Transform>
+			</ImageBrush>
+		</Grid.Background>
+        <Intersoft:DockPanel Margin="10" FillChildMode="Custom">
+            <Intersoft:StylishLabel Content="Customers Page" Intersoft:DockPanel.Dock="Top" Style="{StaticResource PageHeaderStyle}"/>
+            <Grid Intersoft:DockPanel.IsFillElement="True">
+            	<TextBlock TextWrapping="Wrap" Text="Put content here." VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+        </Intersoft:DockPanel>
+    </Grid>
+</Intersoft:UXPage>

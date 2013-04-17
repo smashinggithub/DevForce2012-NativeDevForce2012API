@@ -1,0 +1,6 @@
+﻿<ApplicationPackage xmlns="http://intersoft.clientui.com/schemas"
+    ID="ClientUIDataApp5"
+    Name="ClientUIDataApp5"
+    MainType="ClientUIDataApp5.MainPage">
+    
+</ApplicationPackage>
